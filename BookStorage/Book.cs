@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BookStorage
 {
-    public class Book : IEquatable<Book>, IComparable<Book>
+    public class Book : IEquatable<Book>, IComparable<Book>, IComparable
     {
         private int year;
         private int pagesNumber;
@@ -63,15 +63,15 @@ namespace BookStorage
                 return -1;
             if (ReferenceEquals(this, b))
                 return 1;
-            int n = Author.CompareTo(b.Author);
-            if (n != 0)
-                return n;
-            n = Title.CompareTo(b.Title);
-            if (n != 0)
-                return n;
-            if (Year - b.Year != 0)
-                return Year - b.Year;
-            else return PagesNumber - b.PagesNumber;
+            return Author.CompareTo(b.Author);
+        }
+        int IComparable.CompareTo(object b)
+        {
+            if (ReferenceEquals(b, null))
+                return -1;
+            if (ReferenceEquals(this, b))
+                return 1;
+            return CompareTo((Book)b);
         }
 
         public override bool Equals(object obj)
@@ -79,45 +79,14 @@ namespace BookStorage
             if (ReferenceEquals(obj, null))
                 return false;
             if (ReferenceEquals(this, obj))
+                return true;
 
-                if (obj.GetType() != this.GetType())
-                    return false;
-
-            return Equals((Book)obj);
+            return obj.GetType() != this.GetType() && Equals((Book)obj);
 
         }
 
         public override int GetHashCode() => Author[0] * Author.Length + Title[0] * Title.Length + Year * PagesNumber;
 
         public override string ToString() => string.Format("{0}: {1}, {2} year, {3} pages", Author, Title, Year, PagesNumber);
-
-        public static Book[] Sort(Book[] arr, IComparer<Book> comparer)
-        {
-            foreach (var a in arr)
-            {
-                if (a == null)
-                    throw new ArgumentNullException();
-            }
-            if (comparer == null)
-                throw new ArgumentNullException();
-            for (int i = 0; i < arr.Length; i++)
-            {
-                for (int j = i + 1; j < arr.Length; j++)
-                {
-                    if (comparer.Compare(arr[i], arr[j]) > 0)
-                    {
-                        Swap(ref arr[i], ref arr[j]);
-                    }
-                }
-            }
-            return arr;
-        }
-
-        private static void Swap(ref Book arr1, ref Book arr2)
-        {
-            var temp = arr1;
-            arr1 = arr2;
-            arr2 = temp;
-        }
     }
 }
