@@ -23,7 +23,7 @@ namespace BookStorage
                 {
                     throw new ArgumentException();
                 }
-                year = Year;
+                year = value;
             }
         }
 
