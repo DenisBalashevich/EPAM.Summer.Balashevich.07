@@ -48,6 +48,8 @@
     <Compile Include="CompareByYear.cs" />
     <Compile Include="IBookListStorage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SerializeBook.cs" />
+    <Compile Include="XMLBook.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
